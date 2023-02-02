@@ -27,6 +27,9 @@ import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,11 +86,14 @@ public class RCodeInfoCli {
     FileCollector fc1 = new FileCollector(scan.libs.get(0));
     Files.walkFileTree(fc1.initPath, fc1);
 
-    out.printf("%6s %44s %s%n", "CRC", "Digest", "File name");
+    out.printf("%6s  %20s  %44s  %s%n", "CRC", "Timestamp", "Digest", "File name");
     fc1.files.stream().forEach(it -> {
       try (InputStream s1 = Files.newInputStream(fc1.initPath.resolve(it))) {
         RCodeInfo rci1 = new RCodeInfo(s1);
-        out.printf("%6s %44s %s%n", rci1.getCrc(), rci1.getDigest(), it);
+        out.printf("%6s  %20s  %44s  %s%n", rci1.getCrc(),
+            Instant.ofEpochMilli(rci1.getTimeStamp() * 1000).atOffset(ZoneOffset.UTC).format(
+                DateTimeFormatter.ISO_INSTANT),
+            rci1.getDigest(), it);
       } catch (IOException | InvalidRCodeException caught) {
         err.printf("Unable to read %s%n" + it);
         caught.printStackTrace(err);
