@@ -4,7 +4,7 @@
 
   <groupId>eu.rssw.openedge</groupId>
   <artifactId>rcode-cli</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <name>Standalone RCodeInfo</name>
 
   <properties>
@@ -18,6 +18,11 @@
       <groupId>eu.rssw.openedge.rcode</groupId>
       <artifactId>rcode-reader</artifactId>
       <version>2.19.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.beust</groupId>
+      <artifactId>jcommander</artifactId>
+      <version>1.82</version>
     </dependency>
   </dependencies>
 
