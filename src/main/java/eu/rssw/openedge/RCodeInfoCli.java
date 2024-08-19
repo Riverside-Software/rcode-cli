@@ -91,14 +91,16 @@ public class RCodeInfoCli {
       try (InputStream s1 = Files.newInputStream(fc1.initPath.resolve(it))) {
         RCodeInfo rci1 = new RCodeInfo(s1);
         out.printf("%6s  %20s  %44s  %s%n", rci1.getCrc(),
-            Instant.ofEpochMilli(rci1.getTimeStamp() * 1000).atOffset(ZoneOffset.UTC).format(
-                DateTimeFormatter.ISO_INSTANT),
-            rci1.getDigest(), it);
+            scan.hideTimeStamp ? "" : timeStampToString(rci1.getTimeStamp()), rci1.getDigest(), it);
       } catch (IOException | InvalidRCodeException caught) {
         err.printf("Unable to read %s%n", it);
         caught.printStackTrace(err);
       }
     });
+  }
+
+  private String timeStampToString(long ts) {
+    return Instant.ofEpochMilli(ts * 1000).atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
   }
 
   private void executeCompare() throws IOException {
@@ -167,6 +169,9 @@ public class RCodeInfoCli {
   public static class ScanCommand {
     @Parameter(arity = 1, description = "sourceDir", required = true)
     private List<Path> libs;
+
+    @Parameter(names = {"--no-timestamp"}, description = "Hide timestamp")
+    private boolean hideTimeStamp = false;
   }
 
 }
