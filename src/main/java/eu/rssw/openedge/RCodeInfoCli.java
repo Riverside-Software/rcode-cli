@@ -57,7 +57,7 @@ public class RCodeInfoCli {
     this.err = err;
   }
 
-  public static void main(String[] args) throws IOException, InvalidRCodeException {
+  public static void main(String[] args) throws IOException {
     RCodeInfoCli main = new RCodeInfoCli();
     JCommander jc = new JCommander(main);
     jc.addCommand("compare", compare);
@@ -95,7 +95,7 @@ public class RCodeInfoCli {
                 DateTimeFormatter.ISO_INSTANT),
             rci1.getDigest(), it);
       } catch (IOException | InvalidRCodeException caught) {
-        err.printf("Unable to read %s%n" + it);
+        err.printf("Unable to read %s%n", it);
         caught.printStackTrace(err);
       }
     });
@@ -119,7 +119,7 @@ public class RCodeInfoCli {
             out.printf("%s%n", it);
           }
         } catch (IOException | InvalidRCodeException caught) {
-          err.printf("Unable to read %s%n" + it);
+          err.printf("Unable to read %s%n", it);
           caught.printStackTrace(err);
         }
       }
