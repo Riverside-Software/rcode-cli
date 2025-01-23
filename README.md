@@ -25,7 +25,7 @@ Sample output:
 ## Compare command line
 
 ```
-java -jar rcode-cli.jar scan /path/to/dir1 /path/to/dir2
+java -jar rcode-cli.jar compare /path/to/dir1 /path/to/dir2
 ```
 
 Output only shows file present in first directory and not in the second directory, as well as rcodes that have a different CRC or digest.
